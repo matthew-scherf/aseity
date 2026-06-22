@@ -1,5 +1,7 @@
 # Aseity
 
+[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492)
+
 *A small, axiom-free Lean 4 formalisation of one result:*
 
 > No sufficiently self-enclosed epistemic system can certify its own **aseity** - its being grounded in nothing external. Read theologically, with the system taken to be the maximal one: **even an omniscient God cannot certify that he is ungrounded**.
