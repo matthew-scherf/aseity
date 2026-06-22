@@ -16,7 +16,7 @@ U S  :=  ¬ ∃ x, (Ext x ∧ Grounds x S)        -- "nothing external grounds S
 
 `C1 : ¬ K S (U S)` — `S` cannot know `U S` — follows from the system being internally sealed: nothing it can reach lies outside it, its deductive closure never escapes it, and the boundary between it and any exterior is therefore not an object it can survey. Aseity is precisely a claim *about that boundary*, so it falls outside what the system can certify. For the maximal system this sharpens: `g` cannot even *hold* `U g` as a belief.
 
-The closest structural rhyme is Gödel's second incompleteness theorem: a system strong enough to describe itself cannot certify its own foundational soundness — consistency there, aseity here.
+The closest structural rhyme is Gödel's second incompleteness theorem: a system strong enough to describe itself cannot certify its own foundational soundness.
 
 ## Aboutness, and the live-exterior premise
 
