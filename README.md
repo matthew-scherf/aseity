@@ -113,12 +113,9 @@ This limitation arises because:
 
 Therefore, the question of its own ontological grounding lies beyond the epistemic reach of any system from the inside. The very nature of interiority prevents the system from settling this foundational metaphysical issue about itself.
 
-All the theorems follow purely from the structural assumptions about belief, accessibility, interiority, and closure — no additional domain-specific axioms are required.
+All the theorems follow purely from the structural assumptions about belief, accessibility, interiority, and closure and no additional domain-specific axioms are required.
 
 ---
-
-This translation preserves the full logical content while making it readable for philosophers, theologians, or epistemologists without a Lean background. The result is a clean, self-contained epistemic limit theorem concerning self-grounding and aseity.
-
 
 ## License
 
