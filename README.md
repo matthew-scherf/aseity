@@ -28,7 +28,6 @@ theorem aboutU_iff (S) : AboutExt (U S) ↔ Nonempty Obj
 
 So aseity is outward-reaching exactly when the exterior is a live (non-empty) domain. Over a *provably empty* exterior, `U g` collapses to the triviality `¬∃x∈∅`, is no longer about-the-external, and the unknowability result correctly lapses — a triviality is knowable, even for an internalist God. The case the result targets is the live one: as long as anything exists, the ground of the totality cannot be certified from within it.
 
-## What's in the file
 
 `Aseity.lean` is self-contained plain Lean 4, no Mathlib. Three layers.
 
