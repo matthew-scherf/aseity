@@ -73,7 +73,7 @@ That aseity reaches past the boundary is the single claim the whole result turns
 | `ClW` | `(∀ψ, BSet S ψ → WithinF S ψ) → Cl S φ → WithinF S φ` | deduction does not escape the system |
 | `J`   | `K S φ → Cl S φ` | knowledge lies in the closure of belief |
 
-From these, `G2` (no belief is outward-reaching) and `L` (nothing outward-reaching is in the closure) are **derived**, and then `C1` and `Cor_God` follow under `[Nonempty Obj]`. An earlier draft took `G2`, `L`, *and* the aboutness hinge as primitives.
+From these, `G2` (no belief is outward-reaching) and `L` (nothing outward-reaching is in the closure) are **derived**, and then `C1` and `Cor_God` follow under `[Nonempty Obj]`. 
 
 ## Theorems
 
