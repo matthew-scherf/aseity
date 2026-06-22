@@ -8,6 +8,27 @@
 
 The theorem is *modally insensitive* to whether the system is in fact grounded. It concerns what can be **known from within**, not what is true, and is, therefore, an unknowability result, not a grounding result.
 
+## The Paradox of Absolute Independence
+Imagine a system, or an entity like God, that is completely self-sufficient. It has no external creator, no external causes, and nothing outside of it dictates its existence. In philosophy, this absolute independence is called Aseity.
+
+This project presents a formal proof of a striking paradox: An absolutely independent entity can never actually know, or even believe, that it is independent.
+
+## The Logic
+The argument relies on a few simple, intuitive rules about boundaries, knowledge, and the world:
+
+The Outer World: To claim "I am completely independent," you have to check the entire outside universe to ensure there is nothing out there causing or grounding you. This makes "independence" an outward-reaching fact.
+
+The Inner Boundary: Your thoughts, beliefs, and knowledge live entirely inside you.
+
+The Blind Spot: Because an entity’s internal thoughts cannot span or verify what lies strictly outside its own boundaries, it has a permanent blind spot. It can look at its internal state, but it cannot structurally verify the absence of external anchors.
+
+## The Conclusion
+It cannot know it is independent: Knowledge requires absolute structural certainty. Because the entity cannot verify the outer world from the inside, knowing its own total independence is a logical impossibility.
+
+It cannot even believe it is independent: A rational entity's beliefs must stay within the bounds of what its internal systems can process. Claiming a truth about the infinite "outside" from a strictly closed "inside" breaks the rules of consistent belief.
+
+In short, if you are a completely self-contained system, the one thing you are structurally blocked from proving is that nothing exists outside to contain you.
+
 ## The argument
 
 Let `S` be an epistemic system and `g : Sys` the maximal ("global") one. Write `U S` for the proposition of `S`'s aseity, in its negative form:
