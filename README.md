@@ -1,6 +1,6 @@
 # Aseity
 
-[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492)
+[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492) 
 
 ## Aseity: A Formal Epistemic Argument
 We work within a general framework involving two types:
@@ -8,7 +8,7 @@ We work within a general framework involving two types:
 Sys: systems (e.g., minds, agents, epistemic subjects, or ontological systems).
 Obj: external objects or entities in the "exterior" world.
 
-1. The Language of Forms
+### 1. The Language of Forms
 A form (formula) is built from the following constructors:
 
 Ext x — "Object x exists in the exterior."
@@ -17,7 +17,7 @@ Grounds x S — "Object x is grounded in (dependent on, explained by, sustained 
 φ ∧ ψ — conjunction of φ and ψ.
 ∃x. φ(x) — existential quantification over objects.
 
-2. "About the Exterior" (Outward-Reaching Formulas)
+### 2. "About the Exterior" (Outward-Reaching Formulas)
 We define a predicate AboutExt φ, which is true when the formula φ makes a claim that reaches out to the external world:
 
 Ext x is about the exterior.
@@ -26,23 +26,25 @@ Grounds x S is not about the exterior (it is internal to the system).
 φ ∧ ψ is about the exterior if either φ or ψ is.
 ∃x. φ(x) is about the exterior if there exists some x such that φ(x) is.
 
-3. Key Formulas
+### 3. Key Formulas
 
-Grounding of S: Grounding S means
+Grounding of S: 
+
+Grounding S means
 "There exists an external object x such that x is grounded in S."
 (i.e., S depends on something outside itself.)
 Ungrondedness / Aseity of S: U S means
 "It is not the case that S has external grounding"
 (i.e., S is self-existent, independent, has aseity).
 
-4. Basic Logical Facts
+### 4. Basic Logical Facts
 
 Grounding S is about the exterior if and only if there exists at least one possible external object (Nonempty Obj).
 Similarly, U S is about the exterior under the same condition.
 
 (If the exterior is empty, the entire question becomes trivial.)
 
-Epistemic and Doxastic Structure
+## Epistemic and Doxastic Structure
 We assume the following notions for each system S:
 
 BSet S φ — φ belongs to the belief set of S.
@@ -51,7 +53,7 @@ K S φ — S knows φ.
 AccF S φ — φ is accessible to S.
 WithinF S φ — φ is internal / "within" S.
 
-Structural Assumptions (Plausible Constraints)
+## Structural Assumptions (Plausible Constraints)
 
 G1: If a form is accessible to S, then it is within S.
 (Accessibility implies interiority.)
@@ -65,14 +67,14 @@ J: If S knows φ, then φ is in the deductive closure of S’s beliefs.
 (Knowledge implies closure.)
 
 
-Main Theorems
+## Main Theorems
 G2: If φ is in S’s belief set, then φ is not about the exterior.
 (You cannot believe outward-reaching claims.)
 L: If φ is about the exterior, then φ is not in the deductive closure of S’s beliefs.
 (The closure of your beliefs cannot contain any outward-reaching content.)
 Closure is Interior: For any φ in the deductive closure of S’s beliefs, φ is not about the exterior.
 
-The Central Results
+## The Central Results
 Assuming there is a nonempty exterior world (Nonempty Obj):
 
 S cannot know its own aseity:
@@ -88,7 +90,8 @@ S cannot even believe either proposition:
 Neither U S nor Grounding S can belong to S’s belief set.
 
 
-Summary in Plain English
+## Summary in Plain English
+
 Any system S is structurally incapable of knowing (or even believing) whether it is self-existent (has aseity) or whether it is grounded in something external.
 This limitation arises because:
 
