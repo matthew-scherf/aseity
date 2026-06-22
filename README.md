@@ -20,7 +20,7 @@ The closest structural rhyme is Gödel's second incompleteness theorem: a system
 
 ## Aboutness, and the live-exterior premise
 
-`AboutExt` is read as **realized reference**: a formula is about-the-external exactly when some object instantiates an occurrence of `Ext`. This keeps the result's dependence explicit rather than hidden in a vacuous truth. The headline lemma:
+`AboutExt` is read as **realized reference**: a formula is about-the-external exactly when some object instantiates an occurrence of `Ext`. 
 
 ```lean
 theorem aboutU_iff (S) : AboutExt (U S) ↔ Nonempty Obj
@@ -29,7 +29,7 @@ theorem aboutU_iff (S) : AboutExt (U S) ↔ Nonempty Obj
 So aseity is outward-reaching exactly when the exterior is a live (non-empty) domain. Over a *provably empty* exterior, `U g` collapses to the triviality `¬∃x∈∅`, is no longer about-the-external, and the unknowability result correctly lapses — a triviality is knowable, even for an internalist God. The case the result targets is the live one: as long as anything exists, the ground of the totality cannot be certified from within it.
 
 
-`Aseity.lean` is self-contained plain Lean 4, no Mathlib. Three layers.
+`Aseity.lean` is self-contained.
 
 **Object language (concrete).** `Form` is an inductive syntax with an `Ext` atom and an object-indexed existential binder. `AboutExt : Form → Prop` is defined by recursion (the realized-reference reading above). `U S` is built as the literal `¬∃x (Ext x ∧ Grounds x S)`.
 
@@ -50,7 +50,7 @@ That aseity reaches past the boundary is the single claim the whole result turns
 | `ClW` | `(∀ψ, BSet S ψ → WithinF S ψ) → Cl S φ → WithinF S φ` | deduction does not escape the system |
 | `J`   | `K S φ → Cl S φ` | knowledge lies in the closure of belief |
 
-From these, `G2` (no belief is outward-reaching) and `L` (nothing outward-reaching is in the closure) are **derived**, and then `C1` and `Cor_God` follow under `[Nonempty Obj]`. An earlier draft took `G2`, `L`, *and* the aboutness hinge as primitives; deriving all three is what keeps the argument from quietly assuming its own conclusion.
+From these, `G2` (no belief is outward-reaching) and `L` (nothing outward-reaching is in the closure) are **derived**, and then `C1` and `Cor_God` follow under `[Nonempty Obj]`. An earlier draft took `G2`, `L`, *and* the aboutness hinge as primitives.
 
 ## Theorems
 
@@ -75,7 +75,7 @@ lean Aseity.lean
 
 The file ends with `#print axioms` checks. Each prints **"does not depend on any axioms"**: the development is fully constructive, using neither `sorry`, classical choice, nor `propext`. The only premises are the five named structural axioms and `[Nonempty Obj]`, all visible in the source.
 
-## The assumptions worth arguing about
+## The assumptions
 
 Two explicit assumptions carry the weight:
 
