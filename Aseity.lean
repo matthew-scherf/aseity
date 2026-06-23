@@ -39,12 +39,6 @@ theorem hAboutU {Sys Obj : Type} [Nonempty Obj] (S : Sys) :
     AboutExt (U S : Form Sys Obj) :=
   (aboutU_iff S).mpr inferInstance
 
-/-- A bundle of the epistemic predicates and the structural axioms relating them,
-for one fixed `Sys`/`Obj` pair. Replaces the earlier pattern of five separate
-`variable`-bound predicates plus five separate `variable`-bound axioms, which had
-to be threaded through every helper lemma by hand (and was easy to get wrong —
-see the bug this superseded). Now every theorem just takes one `Ax : Frame Sys Obj`
-and Lean includes it automatically, since it appears in the stated type. -/
 structure Frame (Sys Obj : Type) where
   K       : Sys → Form Sys Obj → Prop   -- S knows φ
   BSet    : Sys → Form Sys Obj → Prop   -- φ ∈ 𝔅_S (belief set)
