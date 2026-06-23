@@ -66,27 +66,28 @@ theorem L (S : Sys) {φ : Form Sys Obj} (hφ : AboutExt φ) : ¬ Cl S φ :=
 
 variable [Nonempty Obj]   -- a live exterior; if empty, the question is trivial.
 
+omit [Nonempty Obj] in
 include G1 G3 W2E ClW in
 theorem closure_is_interior (S : Sys) {φ : Form Sys Obj} (h : Cl S φ) : ¬ AboutExt φ :=
-  L S (hφ := h)
+  fun hφ => L _ _ _ _ G1 G3 W2E ClW S hφ h
 
 include G1 G3 W2E ClW J in
 theorem cannot_know_ungrounded (S : Sys) : ¬ K S (U S) :=
-  fun hK => L S (hAboutU S) (J S (U S) hK)
+  fun hK => L _ _ _ _ G1 G3 W2E ClW S (hAboutU S) (J S (U S) hK)
 
 include G1 G3 W2E ClW J in
 theorem cannot_know_grounded (S : Sys) : ¬ K S (Grounding S) :=
-  fun hK => L S (hAboutGrounding S) (J S (Grounding S) hK)
+  fun hK => L _ _ _ _ G1 G3 W2E ClW S (hAboutGrounding S) (J S (Grounding S) hK)
 
 include G1 G3 W2E ClW J in
 theorem grounding_undeterminable (S : Sys) : ¬ (K S (U S) ∨ K S (Grounding S)) := by
   rintro (hK | hK)
-  · exact L S (hAboutU S) (J S (U S) hK)
-  · exact L S (hAboutGrounding S) (J S (Grounding S) hK)
+  · exact L _ _ _ _ G1 G3 W2E ClW S (hAboutU S) (J S (U S) hK)
+  · exact L _ _ _ _ G1 G3 W2E ClW S (hAboutGrounding S) (J S (Grounding S) hK)
 
 include G1 G3 W2E in
 theorem cannot_believe_either (S : Sys) : ¬ BSet S (U S) ∧ ¬ BSet S (Grounding S) :=
-  ⟨G2 S (h := ·) (hAboutU S), G2 S (h := ·) (hAboutGrounding S)⟩
+  ⟨fun h => G2 _ _ _ G1 G3 W2E S h (hAboutU S), fun h => G2 _ _ _ G1 G3 W2E S h (hAboutGrounding S)⟩
 
 end
 end Aseity
