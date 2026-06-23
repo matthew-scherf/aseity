@@ -39,55 +39,52 @@ theorem hAboutU {Sys Obj : Type} [Nonempty Obj] (S : Sys) :
     AboutExt (U S : Form Sys Obj) :=
   (aboutU_iff S).mpr inferInstance
 
+/-- A bundle of the epistemic predicates and the structural axioms relating them,
+for one fixed `Sys`/`Obj` pair. Replaces the earlier pattern of five separate
+`variable`-bound predicates plus five separate `variable`-bound axioms, which had
+to be threaded through every helper lemma by hand (and was easy to get wrong —
+see the bug this superseded). Now every theorem just takes one `Ax : Frame Sys Obj`
+and Lean includes it automatically, since it appears in the stated type. -/
+structure Frame (Sys Obj : Type) where
+  K       : Sys → Form Sys Obj → Prop   -- S knows φ
+  BSet    : Sys → Form Sys Obj → Prop   -- φ ∈ 𝔅_S (belief set)
+  Cl      : Sys → Form Sys Obj → Prop   -- φ ∈ Cl(𝔅_S) (closure)
+  AccF    : Sys → Form Sys Obj → Prop   -- φ accessible to S
+  WithinF : Sys → Form Sys Obj → Prop   -- φ within S
+  G1  : ∀ S φ, AccF S φ → WithinF S φ                                  -- accessible ⟹ within
+  G3  : ∀ S φ, BSet S φ → AccF S φ                                     -- beliefs are accessible
+  W2E : ∀ S φ, WithinF S φ → ¬ AboutExt φ                               -- within ⟹ not outward-reaching
+  ClW : ∀ S φ, (∀ ψ, BSet S ψ → WithinF S ψ) → Cl S φ → WithinF S φ    -- closure stays within
+  J   : ∀ S φ, K S φ → Cl S φ                                          -- knowledge ⟹ in the closure
+
 section
-variable {Sys Obj : Type}
+variable {Sys Obj : Type} (Ax : Frame Sys Obj)
 
-variable (K       : Sys → Form Sys Obj → Prop)   -- S knows φ
-variable (BSet    : Sys → Form Sys Obj → Prop)   -- φ ∈ 𝔅_S (belief set)
-variable (Cl      : Sys → Form Sys Obj → Prop)   -- φ ∈ Cl(𝔅_S) (closure)
-variable (AccF    : Sys → Form Sys Obj → Prop)   -- φ accessible to S
-variable (WithinF : Sys → Form Sys Obj → Prop)   -- φ within S
+theorem G2 (S : Sys) {φ : Form Sys Obj} (h : Ax.BSet S φ) : ¬ AboutExt φ :=
+  Ax.W2E S φ (Ax.G1 S φ (Ax.G3 S φ h))
 
-variable (G1  : ∀ S φ, AccF S φ → WithinF S φ)        -- accessible ⟹ within
-variable (G3  : ∀ S φ, BSet S φ → AccF S φ)           -- beliefs are accessible
-variable (W2E : ∀ S φ, WithinF S φ → ¬ AboutExt φ)    -- within ⟹ not outward-reaching
-variable (ClW : ∀ S φ, (∀ ψ, BSet S ψ → WithinF S ψ) → Cl S φ → WithinF S φ)  -- closure stays within
-variable (J   : ∀ S φ, K S φ → Cl S φ)                -- knowledge ⟹ in the closure
-
-
-include G1 G3 W2E in
-theorem G2 (S : Sys) {φ : Form Sys Obj} (h : BSet S φ) : ¬ AboutExt φ :=
-  W2E S φ (G1 S φ (G3 S φ h))
-
-
-include G1 G3 W2E ClW in
-theorem L (S : Sys) {φ : Form Sys Obj} (hφ : AboutExt φ) : ¬ Cl S φ :=
-  fun hcl => W2E S φ (ClW S φ (fun ψ hψ => G1 S ψ (G3 S ψ hψ)) hcl) hφ
+theorem L (S : Sys) {φ : Form Sys Obj} (hφ : AboutExt φ) : ¬ Ax.Cl S φ :=
+  fun hcl => Ax.W2E S φ (Ax.ClW S φ (fun ψ hψ => Ax.G1 S ψ (Ax.G3 S ψ hψ)) hcl) hφ
 
 variable [Nonempty Obj]   -- a live exterior; if empty, the question is trivial.
 
 omit [Nonempty Obj] in
-include G1 G3 W2E ClW in
-theorem closure_is_interior (S : Sys) {φ : Form Sys Obj} (h : Cl S φ) : ¬ AboutExt φ :=
-  fun hφ => L _ _ _ _ G1 G3 W2E ClW S hφ h
+theorem closure_is_interior (S : Sys) {φ : Form Sys Obj} (h : Ax.Cl S φ) : ¬ AboutExt φ :=
+  fun hφ => L Ax S hφ h
 
-include G1 G3 W2E ClW J in
-theorem cannot_know_ungrounded (S : Sys) : ¬ K S (U S) :=
-  fun hK => L _ _ _ _ G1 G3 W2E ClW S (hAboutU S) (J S (U S) hK)
+theorem cannot_know_ungrounded (S : Sys) : ¬ Ax.K S (U S) :=
+  fun hK => L Ax S (hAboutU S) (Ax.J S (U S) hK)
 
-include G1 G3 W2E ClW J in
-theorem cannot_know_grounded (S : Sys) : ¬ K S (Grounding S) :=
-  fun hK => L _ _ _ _ G1 G3 W2E ClW S (hAboutGrounding S) (J S (Grounding S) hK)
+theorem cannot_know_grounded (S : Sys) : ¬ Ax.K S (Grounding S) :=
+  fun hK => L Ax S (hAboutGrounding S) (Ax.J S (Grounding S) hK)
 
-include G1 G3 W2E ClW J in
-theorem grounding_undeterminable (S : Sys) : ¬ (K S (U S) ∨ K S (Grounding S)) := by
+theorem grounding_undeterminable (S : Sys) : ¬ (Ax.K S (U S) ∨ Ax.K S (Grounding S)) := by
   rintro (hK | hK)
-  · exact L _ _ _ _ G1 G3 W2E ClW S (hAboutU S) (J S (U S) hK)
-  · exact L _ _ _ _ G1 G3 W2E ClW S (hAboutGrounding S) (J S (Grounding S) hK)
+  · exact L Ax S (hAboutU S) (Ax.J S (U S) hK)
+  · exact L Ax S (hAboutGrounding S) (Ax.J S (Grounding S) hK)
 
-include G1 G3 W2E in
-theorem cannot_believe_either (S : Sys) : ¬ BSet S (U S) ∧ ¬ BSet S (Grounding S) :=
-  ⟨fun h => G2 _ _ _ G1 G3 W2E S h (hAboutU S), fun h => G2 _ _ _ G1 G3 W2E S h (hAboutGrounding S)⟩
+theorem cannot_believe_either (S : Sys) : ¬ Ax.BSet S (U S) ∧ ¬ Ax.BSet S (Grounding S) :=
+  ⟨fun h => G2 Ax S h (hAboutU S), fun h => G2 Ax S h (hAboutGrounding S)⟩
 
 end
 end Aseity
