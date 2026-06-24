@@ -25,7 +25,7 @@ The governing intuition is that *even knowledge identical to one's own being can
 
 ## Plain-language interpretation
 
-Imagine you are mapping the world from the inside, and the only things you can ever check are the things on your map. Now ask: *is my map complete — is there nothing at all beyond its edges?*
+Imagine you are mapping the world from the inside, and the only things you can ever check are the things on your map. Now ask: *is my map complete? Is there nothing at all beyond its edges?*
 
 The argument says you can never **know** the answer is yes. Consider two situations. In the first, your map really is complete: there is nothing outside it. In the second, there *is* something outside, but, being outside, it is exactly the kind of thing you cannot reach to check. From the inside, these two situations look **identical**. Every observation you could make comes out the same in both. So no amount of looking, however thorough, tells you which one you are in.
 
