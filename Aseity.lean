@@ -1,98 +1,86 @@
 namespace Aseity
 
-structure World (Sys Obj : Type) where
-  Grounds    : Obj → Sys → Prop   -- interior: surveyed object x grounds S
-  HasExt     : Sys → Prop         -- territory-fact: an exterior to S exists
-  ExtGrounds : Sys → Prop         -- territory-fact: some exterior object grounds S
 
+inductive Form (Sys Obj : Type) where
+  | ext     : Obj → Form Sys Obj                    -- Ext x
+  | grounds : Obj → Sys → Form Sys Obj              -- Grounds x S
+  | neg     : Form Sys Obj → Form Sys Obj
+  | and     : Form Sys Obj → Form Sys Obj → Form Sys Obj
+  | exObj   : (Obj → Form Sys Obj) → Form Sys Obj   -- ∃ x, …
+
+/- About-the-external = *realized* occurrence of `Ext` (reference, not bare sense):
+   the existential clause asks for a witnessing object. -/
+def AboutExt {Sys Obj : Type} : Form Sys Obj → Prop
+  | .ext _       => True
+  | .grounds _ _ => False
+  | .neg φ       => AboutExt φ
+  | .and φ ψ     => AboutExt φ ∨ AboutExt ψ
+  | .exObj f     => ∃ x, AboutExt (f x)
+
+/- Aseity of S:  ¬ ∃ x, (Ext x ∧ Grounds x S). -/
+def U {Sys Obj : Type} (S : Sys) : Form Sys Obj :=
+  .neg (.exObj (fun x => .and (.ext x) (.grounds x S)))
+
+theorem aboutU_iff {Sys Obj : Type} (S : Sys) :
+    AboutExt (U S : Form Sys Obj) ↔ Nonempty Obj := by
+  simp only [U, AboutExt]
+  constructor
+  · rintro ⟨x, _⟩; exact ⟨x⟩
+  · rintro ⟨x⟩; exact ⟨x, Or.inl trivial⟩
+
+theorem hAboutU {Sys Obj : Type} [Nonempty Obj] (S : Sys) :
+    AboutExt (U S : Form Sys Obj) :=
+  (aboutU_iff S).mpr inferInstance
+
+section
 variable {Sys Obj : Type}
 
-def Maximal (w : World Sys Obj) (S : Sys) : Prop := ¬ w.HasExt S
+variable (K       : Sys → Form Sys Obj → Prop)   -- S knows φ
+variable (BSet    : Sys → Form Sys Obj → Prop)   -- φ ∈ 𝔅_S
+variable (Cl      : Sys → Form Sys Obj → Prop)   -- φ ∈ Cl(𝔅_S)
+variable (AccF    : Sys → Form Sys Obj → Prop)   -- φ accessible to S
+variable (WithinF : Sys → Form Sys Obj → Prop)   -- φ within S
 
-def Grounding (w : World Sys Obj) (S : Sys) : Prop := w.ExtGrounds S
+variable (G1  : ∀ S φ, AccF S φ → WithinF S φ)        -- accessible ⟹ within
+variable (G3  : ∀ S φ, BSet S φ → AccF S φ)           -- beliefs are accessible
+variable (W2E : ∀ S φ, WithinF S φ → ¬ AboutExt φ)    -- within ⟹ not outward-reaching
+variable (ClW : ∀ S φ, (∀ ψ, BSet S ψ → WithinF S ψ) → Cl S φ → WithinF S φ)  -- closure stays within
+variable (J   : ∀ S φ, K S φ → Cl S φ)                -- knowledge ⟹ in the closure
 
+include G1 G3 W2E in
+theorem G2 (S : Sys) {φ : Form Sys Obj} (h : BSet S φ) : ¬ AboutExt φ :=
+  W2E S φ (G1 S φ (G3 S φ h))
 
-def U (w : World Sys Obj) (S : Sys) : Prop := ¬ w.ExtGrounds S
-
-def Ungrounded (w : World Sys Obj) (S : Sys) : Prop :=
-  (∀ x, ¬ w.Grounds x S) ∧ ¬ w.ExtGrounds S
-
- def Indist (S : Sys) (w₁ w₂ : World Sys Obj) : Prop :=
-  ∀ x, w₁.Grounds x S ↔ w₂.Grounds x S
-
-def Knows (S : Sys) (w : World Sys Obj) (P : World Sys Obj → Prop) : Prop :=
-  ∀ w', Indist S w w' → P w'
-
-
-theorem indist_refl (S : Sys) (w : World Sys Obj) : Indist S w w := fun _ => Iff.rfl
-
-theorem knows_true (S : Sys) (w : World Sys Obj) {P : World Sys Obj → Prop}
-    (h : Knows S w P) : P w :=
-  h w (indist_refl S w)
-
-theorem knows_mono (S : Sys) (w : World Sys Obj) {P Q : World Sys Obj → Prop}
-    (hPQ : ∀ w', P w' → Q w') (hP : Knows S w P) : Knows S w Q :=
-  fun w' hInd => hPQ w' (hP w' hInd)
-
-def setHasExt (w : World Sys Obj) (b : Prop) : World Sys Obj := { w with HasExt := fun _ => b }
-def setExtGrounds (w : World Sys Obj) (b : Prop) : World Sys Obj := { w with ExtGrounds := fun _ => b }
-
-theorem indist_setHasExt (S : Sys) (w : World Sys Obj) (b : Prop) :
-    Indist S w (setHasExt w b) := fun _ => Iff.rfl
-
-theorem indist_setExtGrounds (S : Sys) (w : World Sys Obj) (b : Prop) :
-    Indist S w (setExtGrounds w b) := fun _ => Iff.rfl
+include G1 G3 W2E ClW in
+theorem L (S : Sys) {φ : Form Sys Obj} (hφ : AboutExt φ) : ¬ Cl S φ :=
+  fun hcl => W2E S φ (ClW S φ (fun ψ hψ => G1 S ψ (G3 S ψ hψ)) hcl) hφ
 
 
-theorem knows_no_interior_grounder (S : Sys) (w : World Sys Obj)
-    (h : ∀ x, ¬ w.Grounds x S) :
-    Knows S w (fun w' => ∀ x, ¬ w'.Grounds x S) := by
-  intro w' hInd x hx
-  exact h x ((hInd x).mpr hx)
+variable [Nonempty Obj]
 
+include G1 G3 W2E ClW J in
+theorem C1 (S : Sys) : ¬ K S (U S) :=
+  fun hK =>
+    W2E S (U S)
+      (ClW S (U S) (fun ψ hψ => G1 S ψ (G3 S ψ hψ)) (J S (U S) hK))
+      (hAboutU S)
 
-theorem cannot_know_maximal (S : Sys) (w : World Sys Obj) :
-    ¬ Knows S w (fun w' => Maximal w' S) := by
-  intro hK
-  have hMax : Maximal (setHasExt w True) S := hK _ (indist_setHasExt S w True)
-  exact hMax trivial
+include G1 G3 W2E ClW J in
+theorem Cor_God (g : Sys) : ¬ K g (U g) :=
+  fun hK =>
+    W2E g (U g)
+      (ClW g (U g) (fun ψ hψ => G1 g ψ (G3 g ψ hψ)) (J g (U g) hK))
+      (hAboutU g)
 
-theorem maximal_unknowable_even_when_true (S : Sys) (w : World Sys Obj)
-    (hTrue : Maximal w S) :
-    Maximal w S ∧ ¬ Knows S w (fun w' => Maximal w' S) :=
-  ⟨hTrue, cannot_know_maximal S w⟩
+include G1 G3 W2E in
+theorem God_cannot_believe_aseity (g : Sys) : ¬ BSet g (U g) :=
+  fun h => W2E g (U g) (G1 g (U g) (G3 g (U g) h)) (hAboutU g)
 
-
-example (S : Sys) (g : Obj → Sys → Prop) :
-    Maximal (⟨g, fun _ => False, fun _ => False⟩ : World Sys Obj) S :=
-  fun h => h
-
-
-theorem cannot_know_grounding (S : Sys) (w : World Sys Obj) :
-    ¬ Knows S w (fun w' => Grounding w' S) := by
-  intro hK
-  have h : Grounding (setExtGrounds w False) S := hK _ (indist_setExtGrounds S w False)
-  exact h
-
-theorem cannot_know_ungrounded (S : Sys) (w : World Sys Obj) :
-    ¬ Knows S w (fun w' => U w' S) := by
-  intro hK
-  have h : U (setExtGrounds w True) S := hK _ (indist_setExtGrounds S w True)
-  exact h trivial
-
-theorem grounding_undeterminable (S : Sys) (w : World Sys Obj) :
-    ¬ (Knows S w (fun w' => Grounding w' S) ∨ Knows S w (fun w' => U w' S)) := by
-  rintro (h | h)
-  · exact cannot_know_grounding S w h
-  · exact cannot_know_ungrounded S w h
-
-theorem relativized_known_absolute_unknown (S : Sys) (w : World Sys Obj)
-    (clean : ∀ x, ¬ w.Grounds x S) :
-    Knows S w (fun w' => ∀ x, ¬ w'.Grounds x S)
-    ∧ ¬ Knows S w (fun w' => Ungrounded w' S) := by
-  refine ⟨knows_no_interior_grounder S w clean, ?_⟩
-  intro hK
-  have h : Ungrounded (setExtGrounds w True) S := hK _ (indist_setExtGrounds S w True)
-  exact h.2 trivial
-
+end
 end Aseity
+
+#print axioms Aseity.aboutU_iff
+#print axioms Aseity.hAboutU
+#print axioms Aseity.C1
+#print axioms Aseity.Cor_God
+#print axioms Aseity.God_cannot_believe_aseity
