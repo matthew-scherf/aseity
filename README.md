@@ -1,5 +1,7 @@
 # Aseity
 
+[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492)  
+
 This is a concise, axiom-free formalization of a result in Lean 4.
 
 > No self-contained epistemic system can prove its own aseity, meaning it cannot show that it is not grounded in something external. In theological terms, even an all-knowing God cannot prove that he is ungrounded or not a meta-god.
