@@ -1,12 +1,10 @@
 # Aseity
 
-[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492)  
-
-This is a concise, axiom-free formalization of a result in Lean 4.
+[![DOI](https://zenodo.org/badge/1276846438.svg)](https://doi.org/10.5281/zenodo.20796492) 
 
 > No self-contained epistemic system can prove its own aseity, meaning it cannot show that it is not grounded in something external. In theological terms, even an all-knowing God cannot prove that he is ungrounded or not a meta-god.
 
-The theorem does not depend on whether the system is actually grounded. It is about what can be known from inside the system, making it a result about unknowability rather than grounding.
+The theorem does not depend on whether the system is actually grounded, and is about what can be known from inside the system, making it a result about unknowability, rather than grounding.
 
 ## Argument
 
@@ -38,7 +36,10 @@ Aseity is outward-reaching only when the exterior is a live, non-empty domain. I
 Upos S  :=  ¬ ∃ x, Grounds x S        -- "nothing grounds S"
 ```
 
-`Upos` makes the same groundlessness claim but contains no realized reference to the exterior. `notAbout_Upos` shows it is never outward-reaching, and in the model below it is knowable. The unknowability result is therefore specific to the formulation that invokes a live exterior. The obstruction comes from the `Ext` atom.
+`Upos` makes the same groundlessness claim but contains no realised reference to the exterior. `notAbout_Upos` shows it is never outward-reaching, and in the model below it is knowable. The unknowability result is therefore specific to the formulation that invokes a live exterior. The obstruction comes from the `Ext` atom.
+
+## Punchline
+Even God cannot know if he is a meta-god. 
 
 ## Contents
 
